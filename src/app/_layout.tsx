@@ -10,6 +10,8 @@ import {
   Poppins_700Bold,
 } from "@expo-google-fonts/poppins";
 import RootRoutes from "@/routes";
+import { colorScheme } from "nativewind";
+import { useThemeStore } from "@/store/themeStore";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -20,6 +22,7 @@ export {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const { theme } = useThemeStore();
   const [loaded, error] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
@@ -29,10 +32,10 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
-  }, [error]);
+    if (theme) colorScheme.set(theme);
+  }, [error, theme]);
 
   useEffect(() => {
     if (loaded) {
