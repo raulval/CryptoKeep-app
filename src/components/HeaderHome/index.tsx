@@ -7,7 +7,19 @@ export const HeaderHome = () => {
   const { setTheme, theme: colorTheme } = useThemeStore();
   return (
     <View className="w-full flex flex-row items-center justify-between gap-[22px] px-[24px] pt-[24px]">
-      <View className="w-[70%] h-[44px] flex flex-row items-center gap-3 px-[12px] rounded-[10px] bg-light-input dark:bg-dark-input shadow">
+      <View
+        className="w-[70%] h-[44px] flex flex-row items-center gap-3 px-[12px] rounded-[10px] bg-light-input dark:bg-dark-input"
+        style={{
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3,
+          elevation: 5,
+        }}
+      >
         <FontAwesome5
           name="search"
           size={16}
