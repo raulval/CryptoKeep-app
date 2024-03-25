@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { theme } from "@/theme";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import { ThemeEnum, useThemeStore } from "@/store/themeStore";
 
 export default function TabLayout() {
@@ -15,7 +15,7 @@ export default function TabLayout() {
           tabBarStyle: {
             height: 70,
             borderRadius: 26,
-            marginBottom: 22,
+            marginBottom: Platform.OS === "ios" ? 25 : 20,
             marginHorizontal: 12,
             justifyContent: "center",
             alignItems: "center",
