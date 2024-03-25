@@ -12,8 +12,8 @@ export default function Onboarding() {
           Platform.OS === "ios" ? "pt-8" : "pt-24"
         } pl-6 flex flex-col gap-[24px]`}
       >
-        <Text className="text-[50px] font-bold text-light-text dark:text-dark-text ">
-          Crypto<Text className="text-primary font-bold">Keep</Text>
+        <Text className="text-[50px] font-poppins-bold text-light-text dark:text-dark-text ">
+          Crypto<Text className="text-primary font-poppins-bold">Keep</Text>
         </Text>
         <View className="flex items-end">
           <Image source={require("@/assets/images/onboardingImg.png")} />

@@ -15,7 +15,7 @@ module.exports = {
       normal: ["Poppins_400Regular"],
       medium: ["Poppins_500Medium"],
       semibold: ["Poppins_600SemiBold"],
-      bold: ["Poppins_700Bold"],
+      "poppins-bold": ["Poppins_700Bold"],
     },
   },
   plugins: [],
