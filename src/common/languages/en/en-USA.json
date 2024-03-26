@@ -1,0 +1,15 @@
+{
+  "onboarding": {
+    "Manage your crypto portfolio": "Manage your crypto portfolio",
+    "Take your investment portfolio to next level": "Take your investment portfolio\n to next level",
+    "Get Started": "Get Started"
+  },
+  "bottomNav": {
+    "Home": "Home",
+    "Activity": "Activity"
+  },
+  "home": {
+    "Search": "Search",
+    "Current Balance": "Current Balance"
+  }
+}

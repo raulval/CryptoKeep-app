@@ -1,0 +1,15 @@
+{
+  "onboarding": {
+    "Manage your crypto portfolio": "Gerencie seu portifólio de cripto",
+    "Take your investment portfolio to next level": "Deixe o seu portifólio de investimentos\n no último nível",
+    "Get Started": "Começar"
+  },
+  "bottomNav": {
+    "Home": "Home",
+    "Activity": "Atividade"
+  },
+  "home": {
+    "Search": "Pesquisar",
+    "Current Balance": "Saldo Atual"
+  }
+}
