@@ -1,8 +1,10 @@
 import { Button } from "@/components/Button";
 import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { Image, Platform, SafeAreaView, Text, View } from "react-native";
 
 export default function Onboarding() {
+  const { t } = useTranslation("onboarding");
   return (
     <SafeAreaView
       className={`flex-1 bg-light-background dark:bg-dark-background`}
@@ -19,13 +21,15 @@ export default function Onboarding() {
           <Image source={require("@/assets/images/onboardingImg.png")} />
         </View>
         <Text className="text-[32px] leading-[150%] font-semibold text-light-text dark:text-dark-text">
-          Manage your crypto portfolio
+          {t(`Manage your crypto portfolio`)}
         </Text>
         <Text className="text-[14px] leading-[150%] font-medium text-light-text dark:text-dark-text">
-          {`Take your investment portfolio\n to next level`}
+          {t(`Take your investment portfolio to next level`)}
         </Text>
         <View className="w-full pr-6 my-auto">
-          <Button onPress={() => router.replace("/home")}>Get Started</Button>
+          <Button onPress={() => router.replace("/home")}>
+            {t("Get Started")}
+          </Button>
         </View>
       </View>
     </SafeAreaView>
