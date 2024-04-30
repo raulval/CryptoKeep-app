@@ -1,7 +1,9 @@
 import { LinearGradient } from "expo-linear-gradient";
+import { useTranslation } from "react-i18next";
 import { Text, View } from "react-native";
 
 export const MainCard = () => {
+  const { t } = useTranslation("home");
   return (
     <View
       className="w-full px-[24px]"
@@ -25,7 +27,7 @@ export const MainCard = () => {
       >
         <View className="w-full h-[170px] px-[24px] py-[16px] flex flex-col justify-between">
           <Text className="text-[16px] font-medium text-dark-text">
-            Current Balance
+            {t("Current Balance")}
           </Text>
           <Text className="text-[24px] font-poppins-bold text-dark-text">
             $ 87,430.12

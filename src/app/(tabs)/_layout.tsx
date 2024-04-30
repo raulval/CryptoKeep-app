@@ -1,11 +1,13 @@
 import React from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import { theme } from "@/theme";
+import { colors } from "@/theme/colors";
 import { Platform, View } from "react-native";
 import { ThemeEnum, useThemeStore } from "@/store/themeStore";
+import { useTranslation } from "react-i18next";
 
 export default function TabLayout() {
+  const { t } = useTranslation("bottomNav");
   const { theme: colorTheme } = useThemeStore();
   return (
     <View className="flex-1 bg-light-background dark:bg-dark-background">
@@ -20,10 +22,7 @@ export default function TabLayout() {
             justifyContent: "center",
             alignItems: "center",
             borderBlockColor: "transparent",
-            backgroundColor:
-              colorTheme === ThemeEnum.LIGHT
-                ? theme.colors.light.bottomNav
-                : theme.colors.dark.bottomNav,
+            backgroundColor: colors[colorTheme].bottomNav,
             shadowColor: "#000",
             shadowOffset: {
               width: 0,
@@ -42,14 +41,14 @@ export default function TabLayout() {
           tabBarItemStyle: {
             height: 70,
           },
-          tabBarActiveTintColor: theme.colors.primary,
+          tabBarActiveTintColor: colors.primary,
           tabBarInactiveTintColor: "gray",
         }}
       >
         <Tabs.Screen
           name="home"
           options={{
-            title: "Home",
+            title: `${t("Home")}`,
             tabBarIcon: ({ color }) => (
               <FontAwesome size={24} name="home" color={color} />
             ),
@@ -58,7 +57,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="activity"
           options={{
-            title: "Activity",
+            title: `${t("Activity")}`,
             tabBarIcon: ({ color }) => (
               <FontAwesome size={24} name="exchange" color={color} />
             ),
