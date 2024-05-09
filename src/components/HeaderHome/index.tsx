@@ -1,9 +1,17 @@
 import { ThemeEnum, useThemeStore } from "@/store/themeStore";
-import { theme } from "@/theme";
+import { colors } from "@/theme/colors";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
 import { Pressable, TextInput, View } from "react-native";
 
-export const HeaderHome = () => {
+interface HeaderHomeProps {
+  onOpenSettingsBottomSheet?: () => void;
+}
+
+export const HeaderHome: React.FC<HeaderHomeProps> = ({
+  onOpenSettingsBottomSheet,
+}) => {
+  const { t } = useTranslation("home");
   const { setTheme, theme: colorTheme } = useThemeStore();
   return (
     <View className="w-full flex flex-row items-center justify-between gap-[22px] px-[24px] pt-[24px]">
@@ -23,10 +31,10 @@ export const HeaderHome = () => {
         <FontAwesome5
           name="search"
           size={16}
-          color={theme.colors.light.placeholder}
+          color={colors.light.placeholder}
         />
         <TextInput
-          placeholder="Search"
+          placeholder={t("Search")}
           className="w-[95%] text-[14px] font-normal text-light-text dark:text-dark-text placeholder:text-light-placeholder dark:placeholder:text-dark-placeholder"
         />
       </View>
@@ -40,23 +48,11 @@ export const HeaderHome = () => {
         <FontAwesome5
           name={colorTheme === ThemeEnum.LIGHT ? "moon" : "sun"}
           size={24}
-          color={
-            colorTheme === ThemeEnum.LIGHT
-              ? theme.colors.light.text
-              : theme.colors.dark.text
-          }
+          color={colors[colorTheme].text}
         />
       </Pressable>
-      <Pressable>
-        <FontAwesome5
-          name="cog"
-          size={24}
-          color={
-            colorTheme === ThemeEnum.LIGHT
-              ? theme.colors.light.text
-              : theme.colors.dark.text
-          }
-        />
+      <Pressable onPress={onOpenSettingsBottomSheet}>
+        <FontAwesome5 name="cog" size={24} color={colors[colorTheme].text} />
       </Pressable>
     </View>
   );

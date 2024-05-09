@@ -11,5 +11,11 @@
   "home": {
     "Search": "Search",
     "Current Balance": "Current Balance"
+  },
+  "settings": {
+    "Settings": "Settings",
+    "Language": "Language",
+    "English": "English",
+    "Portuguese": "Portuguese"
   }
 }

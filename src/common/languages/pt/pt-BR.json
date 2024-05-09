@@ -5,11 +5,17 @@
     "Get Started": "Começar"
   },
   "bottomNav": {
-    "Home": "Home",
+    "Home": "Início",
     "Activity": "Atividade"
   },
   "home": {
     "Search": "Pesquisar",
     "Current Balance": "Saldo Atual"
+  },
+  "settings": {
+    "Settings": "Configurações",
+    "Language": "Idioma",
+    "English": "Inglês",
+    "Portuguese": "Português"
   }
 }
