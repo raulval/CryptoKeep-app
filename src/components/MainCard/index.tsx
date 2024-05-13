@@ -1,9 +1,14 @@
+import { formatValueByCurrencyCode } from "@/common/helpers/formatValueByCurrencyCode";
+import { useCurrencyStore } from "@/store/currencyStore";
+import { useLanguageStore } from "@/store/languageStore";
 import { LinearGradient } from "expo-linear-gradient";
 import { useTranslation } from "react-i18next";
 import { Text, View } from "react-native";
 
 export const MainCard = () => {
   const { t } = useTranslation("home");
+  const { currencyCode } = useCurrencyStore();
+  const { language } = useLanguageStore();
   return (
     <View
       className="w-full px-[24px]"
@@ -30,7 +35,12 @@ export const MainCard = () => {
             {t("Current Balance")}
           </Text>
           <Text className="text-[24px] font-poppins-bold text-dark-text">
-            $ 87,430.12
+            {formatValueByCurrencyCode({
+              value: 52345.22,
+              currencyCode,
+              localeCode: language,
+              withSymbol: true,
+            })}
           </Text>
         </View>
       </LinearGradient>
