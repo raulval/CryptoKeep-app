@@ -4,4 +4,6 @@ export const darkTheme = {
   bottomNav: "#121212",
   input: "#201E1D",
   placeholder: "#8C8C8C",
+  text2: "#8C8C8C",
+  card: "#201E1D",
 };
