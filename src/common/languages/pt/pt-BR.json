@@ -17,6 +17,14 @@
     "Settings": "Configurações",
     "Language": "Idioma",
     "English": "Inglês",
-    "Portuguese": "Português"
+    "Portuguese": "Português",
+    "Currency": "Moeda",
+    "Dollar": "Dólar",
+    "Brazilian Real": "Real",
+    "Euro": "Euro",
+    "Pound Sterling": "Libras",
+    "Canadian Dollar": "Dólar Canadense",
+    "Argentinian Peso": "Peso Argentino",
+    "Mexican Peso": "Peso Mecanico"
   }
 }
