@@ -6,4 +6,6 @@ export const darkTheme = {
   placeholder: "#8C8C8C",
   text2: "#8C8C8C",
   card: "#201E1D",
+  border: "#4F4F4F",
+  bottomSheet: "#070707",
 };

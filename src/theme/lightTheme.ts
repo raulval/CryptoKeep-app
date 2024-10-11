@@ -6,4 +6,5 @@ export const lightTheme = {
   placeholder: "#8C8C8C",
   text2: "#8C8C8C",
   card: "#FFF",
+  bottomSheet: "#F3F3F3",
 };
