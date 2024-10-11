@@ -30,7 +30,7 @@ export const MainCard = () => {
         locations={[0, 0.3, 0.8]}
         style={{ borderRadius: 16 }}
       >
-        <View className="w-full h-[170px] px-[24px] py-[16px] flex flex-col justify-between">
+        <View className="w-full h-[190px] px-[24px] py-[16px] flex flex-col justify-between">
           <Text className="text-[16px] font-medium text-dark-text">
             {t("Current Balance")}
           </Text>

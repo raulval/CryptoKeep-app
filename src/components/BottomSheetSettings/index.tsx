@@ -28,7 +28,7 @@ export const BottomSheetSettings = forwardRef<Bottom, Props>(
         ref={ref}
         snapPoints={[0.01, 500]}
         backgroundStyle={{
-          backgroundColor: colors[colorTheme].bottomNav,
+          backgroundColor: colors[colorTheme].bottomSheet,
         }}
         handleComponent={() => null}
         backdropComponent={BottomSheetBackdrop}
