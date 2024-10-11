@@ -9,8 +9,8 @@ type CurrencyData = {
 };
 
 const initialState: CurrencyData = {
-  currencyCode: getLocales()[0].currencyCode || "USD",
-  currencySymbol: getLocales()[0].currencySymbol || "$",
+  currencyCode: getLocales()[0].currencyCode ?? "USD",
+  currencySymbol: getLocales()[0].currencySymbol ?? "$",
 };
 
 type CurrencyAction = {
