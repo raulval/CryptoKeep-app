@@ -11,7 +11,13 @@
   "home": {
     "Search": "Pesquisar",
     "Current Balance": "Saldo Atual",
-    "My Portfolio": "Meu Portifolio"
+    "My Portfolio": "Meu Portifólio",
+    "My Wallets": "Minhas Carteiras",
+    "Add wallet": "Nova carteira",
+    "Add new wallet": "Adicionar nova carteira",
+    "Wallet name": "Nome da carteira",
+    "Wallet address": "Endereço da carteira",
+    "Save wallet": "Salvar carteira"
   },
   "settings": {
     "Settings": "Configurações",

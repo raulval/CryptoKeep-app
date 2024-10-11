@@ -11,7 +11,13 @@
   "home": {
     "Search": "Search",
     "Current Balance": "Current Balance",
-    "My Portfolio": "My Portfolio"
+    "My Portfolio": "My Portfolio",
+    "My Wallets": "My Wallets",
+    "Add wallet": "Add wallet",
+    "Add new wallet": "Add new wallet",
+    "Wallet name": "Wallet name",
+    "Wallet address": "Wallet address",
+    "Save wallet": "Save wallet"
   },
   "settings": {
     "Settings": "Settings",
