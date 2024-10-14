@@ -25,6 +25,12 @@ export const WalletsList = () => {
       crypto: "Ethereum",
       amount: 0.02,
     },
+    {
+      name: "WalletConnect",
+      address: "0x1421e0d5f5c3a6b7b5f7c4f7c6c7c8d9c5c7c9c3",
+      crypto: "Bitcoin",
+      amount: 0.0056,
+    },
   ];
   return (
     <View className="h-full w-full">
@@ -35,7 +41,7 @@ export const WalletsList = () => {
         keyExtractor={(item) => item.address}
         estimatedItemSize={200}
         contentContainerStyle={{ paddingHorizontal: 24 }}
-        renderItem={({ item, index }) => <WalletCard item={item} />}
+        renderItem={({ item }) => <WalletCard item={item} />}
       />
     </View>
   );

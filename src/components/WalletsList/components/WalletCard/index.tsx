@@ -21,6 +21,22 @@ export const WalletCard = ({ item }: { item: IWallet }) => {
     currencyCode
   );
 
+  const loadingValue = () => {
+    const priceExists = data?.[0]?.current_price;
+    if (isLoading) {
+      return <ActivityIndicator size="small" color={colors.primary} />;
+    } else if (priceExists) {
+      return convertCryptoOrFiat({
+        value: item.amount,
+        action: EActionToConvertCryptoOrFiat.CRYPTO_TO_FIAT,
+        quotation: data[0].current_price,
+        localeInfo: { currencyCode, languageTag: language },
+      });
+    } else {
+      return "--";
+    }
+  };
+
   return (
     <View className="flex-row items-center">
       <View
@@ -52,20 +68,11 @@ export const WalletCard = ({ item }: { item: IWallet }) => {
             {item.name}
           </Text>
           <Text className="text-light-text2 dark:text-dark-text2 font-normal text-[14px]">
-            {formatLongString(item.address, 10)}
+            {formatLongString(item.address, 8)}
           </Text>
         </View>
         <Text className="text-light-text dark:text-dark-text font-bold text-[16px]">
-          {isLoading ? (
-            <ActivityIndicator size="small" color={colors.primary} />
-          ) : (
-            convertCryptoOrFiat({
-              value: item.amount,
-              action: EActionToConvertCryptoOrFiat.CRYPTO_TO_FIAT,
-              quotation: data[0].current_price,
-              localeInfo: { currencyCode, languageTag: language },
-            })
-          )}
+          {loadingValue()}
         </Text>
       </View>
     </View>
