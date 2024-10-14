@@ -14,7 +14,7 @@ export const HeaderHome: React.FC<HeaderHomeProps> = ({
   const { t } = useTranslation("home");
   const { setTheme, theme: colorTheme } = useThemeStore();
   return (
-    <View className="w-full flex flex-row items-center justify-between gap-[22px] px-[24px] pt-[24px]">
+    <View className="w-full flex flex-row items-center justify-between gap-[22px] px-[24px] pt-[24px] mb-4 rounded-b-md">
       <View
         className="w-[70%] h-[44px] flex flex-row items-center gap-3 px-[12px] rounded-[10px] bg-light-input dark:bg-dark-input"
         style={{
