@@ -34,14 +34,20 @@ export const PortfolioList = () => {
     },
   ];
   return (
-    <FlashList
-      data={portfolio}
-      horizontal={true}
-      ItemSeparatorComponent={ItemSeparator}
-      keyExtractor={(item) => item.cryptoCurrency}
-      estimatedItemSize={50}
-      contentContainerStyle={{ paddingHorizontal: 24 }}
-      renderItem={({ item }) => <PortfolioCards item={item} />}
-    />
+    <View className="h-fit">
+      <FlashList
+        data={portfolio}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        ItemSeparatorComponent={ItemSeparator}
+        keyExtractor={(item) => item.cryptoCurrency}
+        estimatedItemSize={200}
+        contentContainerStyle={{
+          paddingHorizontal: 24,
+          paddingBottom: 8,
+        }}
+        renderItem={({ item }) => <PortfolioCards item={item} />}
+      />
+    </View>
   );
 };
