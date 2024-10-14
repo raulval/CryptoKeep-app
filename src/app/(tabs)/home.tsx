@@ -3,11 +3,20 @@ import { HeaderHome } from "@/components/HeaderHome";
 import { MainCard } from "@/components/MainCard";
 import { useRef } from "react";
 import Bottom from "@gorhom/bottom-sheet";
-import { Platform, Pressable, SafeAreaView, Text, View } from "react-native";
+import {
+  Platform,
+  Pressable,
+  RefreshControl,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import { PortfolioList } from "@/components/PortfolioList";
 import { BottomSheetAddWallet } from "@/components/BottomSheetAddWallet";
 import { WalletsList } from "@/components/WalletsList";
+import { colors } from "@/theme/colors";
 
 export default function Home() {
   const { t } = useTranslation("home");
@@ -28,34 +37,45 @@ export default function Home() {
         paddingTop: Platform.OS === "ios" ? 0 : 36,
       }}
     >
-      <View className="gap-[32px]">
-        <HeaderHome onOpenSettingsBottomSheet={handleBottomSheetSettingsOpen} />
-        <MainCard />
-        <View className="flex flex-col gap-4">
-          <Text className="px-[24px] text-[18px] font-bold text-light-text dark:text-dark-text">
-            {t("My Portfolio")}
-          </Text>
-          <PortfolioList />
-        </View>
-        <View className="flex flex-col gap-4">
-          <View className="flex flex-row items-center justify-between pr-[18px] mb-4">
+      <HeaderHome onOpenSettingsBottomSheet={handleBottomSheetSettingsOpen} />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={false}
+            onRefresh={() => {}}
+            colors={[colors.primary]}
+          />
+        }
+      >
+        <View className="gap-[32px] mb-6">
+          <MainCard />
+          <View className="flex flex-col gap-4">
             <Text className="px-[24px] text-[18px] font-bold text-light-text dark:text-dark-text">
-              {t("My Wallets")}
+              {t("My Portfolio")}
             </Text>
-            <Pressable
-              className={`w-[125px] h-[40px] bg-primary rounded-[16px] flex items-center justify-center`}
-              onPress={handleBottomSheetAddWalletOpen}
-            >
-              <Text
-                className={`text-[14px] font-medium text-center text-dark-text`}
-              >
-                {t("Add wallet")}
-              </Text>
-            </Pressable>
+            <PortfolioList />
           </View>
-          <WalletsList />
+          <View className="flex flex-col gap-4 mt-[-16px]">
+            <View className="flex flex-row items-center justify-between pr-[18px] mb-4">
+              <Text className="px-[24px] text-[18px] font-bold text-light-text dark:text-dark-text">
+                {t("My Wallets")}
+              </Text>
+              <Pressable
+                className={`w-[125px] h-[40px] bg-primary rounded-[16px] flex items-center justify-center`}
+                onPress={handleBottomSheetAddWalletOpen}
+              >
+                <Text
+                  className={`text-[14px] font-medium text-center text-dark-text`}
+                >
+                  {t("Add wallet")}
+                </Text>
+              </Pressable>
+            </View>
+            <WalletsList />
+          </View>
         </View>
-      </View>
+      </ScrollView>
       <BottomSheetSettings
         ref={bottomSheetSettingsRef}
         onClose={handleBottomSheetSettingsClose}

@@ -22,6 +22,10 @@ export const convertCryptoOrFiat = ({
 }: IConvertCryptoOrFiat): string => {
   let convertedValue = "0";
 
+  if (!quotation) {
+    return "--";
+  }
+
   const priceCryptoInFiat = Number(quotation);
 
   if (priceCryptoInFiat) {
