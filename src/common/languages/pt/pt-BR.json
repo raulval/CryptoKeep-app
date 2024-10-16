@@ -4,6 +4,20 @@
     "Take your investment portfolio to next level": "Deixe o seu portifólio de investimentos\n no último nível",
     "Get Started": "Começar"
   },
+  "biometrics": {
+    "Protect your wallets with biometrics": "Proteja suas carteiras com a sua biometria",
+    "Protect your wallets with FaceID": "Proteja suas carteiras com o Face ID",
+    "Increase the security of your crypto wallets by...": "Aumente a proteção das suas carteiras de criptomoedas ativando o Face ID ou biometria. Isso ajuda a garantir que apenas você poderá acessar seus fundos de forma rápida e segura.",
+    "Enable FaceID": "Ativar Face ID",
+    "Enable biometrics": "Ativar biometria",
+    "Skip": "Pular",
+    "Biometrics not compatible": "Biometria não compatiível",
+    "Your device doesn't have a compatible biometric sensor": "Seu dispositivo não tem um sensor biométrico compatível",
+    "Biometric record not found": "Registro biométrico não encontrado",
+    "Please set up your biometrics record first": "Por favor, defina o seu registro biométrico primeiro",
+    "Enable Biometrics": "Ativar Biometria",
+    "Cancel": "Cancelar"
+  },
   "bottomNav": {
     "Home": "Início",
     "Activity": "Atividade"

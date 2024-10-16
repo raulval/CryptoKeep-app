@@ -4,6 +4,21 @@
     "Take your investment portfolio to next level": "Take your investment portfolio\n to next level",
     "Get Started": "Get Started"
   },
+
+  "biometrics": {
+    "Protect your wallets with biometrics": "Protect your wallets with biometrics",
+    "Protect your wallets with FaceID": "Protect your wallets with Face ID",
+    "Increase the security of your crypto wallets by...": "Increase the security of your crypto wallets by enabling Face ID or biometrics. This helps ensure that only you can access your funds quickly and securely.",
+    "Enable FaceID": "Enable Face ID",
+    "Enable biometrics": "Enable biometrics",
+    "Skip": "Skip",
+    "Biometrics not compatible": "Biometrics not compatible",
+    "Your device doesn't have a compatible biometric sensor": "Your device doesn't have a compatible biometric sensor",
+    "Biometric record not found": "Biometric record not found",
+    "Please set up your biometrics record first": "Please set up your biometrics record first",
+    "Enable Biometrics": "Enable Biometrics",
+    "Cancel": "Cancel"
+  },
   "bottomNav": {
     "Home": "Home",
     "Activity": "Activity"
