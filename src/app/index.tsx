@@ -1,10 +1,50 @@
 import { Button } from "@/components/Button";
 import { router } from "expo-router";
+import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Platform, SafeAreaView, Text, View } from "react-native";
+import * as LocalAuthentication from "expo-local-authentication";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Onboarding() {
-  const { t } = useTranslation("onboarding");
+  const { t } = useTranslation(["onboarding", "biometrics"]);
+
+  const handleBiometricAuth = useCallback(async () => {
+    try {
+      const [hasOnboarded, hasBiometrics] = await Promise.all([
+        AsyncStorage.getItem("@cryptokeep:onboarding"),
+        AsyncStorage.getItem("@cryptokeep:biometrics"),
+      ]);
+
+      if (!hasOnboarded) return;
+      if (hasOnboarded && !hasBiometrics) return router.replace("/home");
+
+      const biometricAuth = await LocalAuthentication.authenticateAsync({
+        promptMessage: t("biometrics:Enable Biometrics"),
+        cancelLabel: t("biometrics:Cancel"),
+      });
+
+      if (biometricAuth.success) {
+        router.replace("/home");
+      }
+    } catch (error) {
+      console.error("Biometric Authentication Error:", error);
+    }
+  }, [router]);
+
+  useEffect(() => {
+    handleBiometricAuth();
+  }, [handleBiometricAuth]);
+
+  const handleGetStarted = useCallback(async () => {
+    try {
+      await AsyncStorage.setItem("@cryptokeep:onboarding", "true");
+      router.push("/biometrics");
+    } catch (error) {
+      console.error("Error during onboarding:", error);
+    }
+  }, [router]);
+
   return (
     <SafeAreaView
       className={`flex-1 bg-light-background dark:bg-dark-background`}
@@ -27,9 +67,7 @@ export default function Onboarding() {
           {t(`Take your investment portfolio to next level`)}
         </Text>
         <View className="w-full pr-6 my-auto">
-          <Button onPress={() => router.replace("/home")}>
-            {t("Get Started")}
-          </Button>
+          <Button onPress={handleGetStarted}>{t("Get Started")}</Button>
         </View>
       </View>
     </SafeAreaView>
