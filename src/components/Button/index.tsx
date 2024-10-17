@@ -15,7 +15,7 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <Pressable
-      className={`w-full h-[52px] bg-primary rounded-[16px] flex items-center justify-center ${
+      className={`w-full h-[52px] bg-primary rounded-[16px] flex items-center justify-center disabled:opacity-60 ${
         classes ?? ""
       }`}
       {...rest}

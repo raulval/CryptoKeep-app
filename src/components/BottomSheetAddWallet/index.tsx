@@ -79,7 +79,8 @@ export const BottomSheetAddWallet = forwardRef<Bottom, Props>(
               setWalletName("");
               setWalletAddress("");
             }}
-            classes={`${isKeyboardVisible ? "mt-4" : "mt-auto"} h-[60px]`}
+            classes={`mb-auto h-[56px]`}
+            disabled={!walletName || !walletAddress}
           >
             {t("Save wallet")}
           </Button>

@@ -10,7 +10,7 @@ export const PortfolioList = () => {
     {
       crypto: "Bitcoin",
       cryptoCurrency: "BTC",
-      amount: 0.00016,
+      amount: 0.016,
     },
     {
       crypto: "Ethereum",
