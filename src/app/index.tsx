@@ -7,7 +7,8 @@ import * as LocalAuthentication from "expo-local-authentication";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Onboarding() {
-  const { t } = useTranslation(["onboarding", "biometrics"]);
+  const { t } = useTranslation("onboarding");
+  const { t: tBiometrics } = useTranslation("biometrics");
 
   const handleBiometricAuth = useCallback(async () => {
     try {
@@ -20,8 +21,8 @@ export default function Onboarding() {
       if (hasOnboarded && !hasBiometrics) return router.replace("/home");
 
       const biometricAuth = await LocalAuthentication.authenticateAsync({
-        promptMessage: t("biometrics:Enable Biometrics"),
-        cancelLabel: t("biometrics:Cancel"),
+        promptMessage: tBiometrics("Access wallets"),
+        cancelLabel: tBiometrics("Cancel"),
       });
 
       if (biometricAuth.success) {

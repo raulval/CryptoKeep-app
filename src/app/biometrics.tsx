@@ -45,7 +45,6 @@ export default function Biometrics() {
     const biometricAuth = await LocalAuthentication.authenticateAsync({
       promptMessage: t("Enable Biometrics"),
       cancelLabel: "Cancel",
-      // disableDeviceFallback: true,
     });
 
     if (biometricAuth.success) {
@@ -55,6 +54,15 @@ export default function Biometrics() {
       } catch (e) {
         console.log("Error on biometric auth:", e);
       }
+    }
+  };
+
+  const handleSkip = async () => {
+    try {
+      await AsyncStorage.removeItem("@cryptokeep:biometrics");
+      router.replace("/home");
+    } catch (e) {
+      console.log("Error on skip auth:", e);
     }
   };
 
@@ -90,7 +98,7 @@ export default function Biometrics() {
               ? t(`Enable FaceID`)
               : t("Enable biometrics")}
           </Button>
-          <Pressable onPress={() => router.replace("/home")}>
+          <Pressable onPress={handleSkip}>
             <Text className="text-primary font-medium text-[16px]">
               {t(`Skip`)}
             </Text>
