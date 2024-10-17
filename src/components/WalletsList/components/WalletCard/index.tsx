@@ -2,6 +2,7 @@ import {
   convertCryptoOrFiat,
   EActionToConvertCryptoOrFiat,
 } from "@/common/helpers/convertCryptoOrFiat";
+import { formatCryptoBalance } from "@/common/helpers/formatCryptoBalance";
 import { formatLongString } from "@/common/helpers/formatLongString";
 import { IWallet } from "@/interfaces/wallets";
 import useGetQuotation from "@/services/api.config.coingecko";
@@ -33,7 +34,7 @@ export const WalletCard = ({ item }: { item: IWallet }) => {
         localeInfo: { currencyCode, languageTag: language },
       });
     } else {
-      return "--";
+      return `${item.symbol} ${formatCryptoBalance(item.crypto, item.amount)}`;
     }
   };
 
