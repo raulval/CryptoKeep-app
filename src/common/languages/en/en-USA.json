@@ -33,7 +33,9 @@
     "Add new wallet": "Add new wallet",
     "Wallet name": "Wallet name",
     "Wallet address": "Wallet address",
-    "Save wallet": "Save wallet"
+    "Save wallet": "Save wallet",
+    "Wallet network": "Wallet network",
+    "Select your wallet network": "Select your wallet network"
   },
   "settings": {
     "Settings": "Settings",

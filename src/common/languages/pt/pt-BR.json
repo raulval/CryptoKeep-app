@@ -32,7 +32,9 @@
     "Add new wallet": "Adicionar nova carteira",
     "Wallet name": "Nome da carteira",
     "Wallet address": "Endereço da carteira",
-    "Save wallet": "Salvar carteira"
+    "Save wallet": "Salvar carteira",
+    "Wallet network": "Rede da carteira",
+    "Select your wallet network": "Selecione sua rede da carteira"
   },
   "settings": {
     "Settings": "Configurações",
