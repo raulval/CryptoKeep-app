@@ -6,6 +6,9 @@ import { colors } from "@/theme/colors";
 import { useTranslation } from "react-i18next";
 import { Input } from "../Input";
 import { Button } from "../Button";
+import { SelectInput } from "../SelectInput";
+import { networks } from "@/common/constants/networks";
+import { Network } from "alchemy-sdk";
 
 export type Props = {
   onClose: () => void;
@@ -17,6 +20,9 @@ export const BottomSheetAddWallet = forwardRef<Bottom, Props>(
     const { theme: colorTheme } = useThemeStore();
     const [walletName, setWalletName] = React.useState("");
     const [walletAddress, setWalletAddress] = React.useState("");
+    const [walletNetwork, setWalletNetwork] = React.useState<Network | null>(
+      null
+    );
     const [isKeyboardVisible, setIsKeyboardVisible] = React.useState(false);
 
     React.useEffect(() => {
@@ -37,7 +43,7 @@ export const BottomSheetAddWallet = forwardRef<Bottom, Props>(
     return (
       <Bottom
         ref={ref}
-        snapPoints={isKeyboardVisible ? [0.01, "80%"] : [0.01, "50%"]}
+        snapPoints={isKeyboardVisible ? [0.01, "85%"] : [0.01, "65%"]}
         backgroundStyle={{
           backgroundColor: colors[colorTheme].bottomSheet,
         }}
@@ -72,6 +78,13 @@ export const BottomSheetAddWallet = forwardRef<Bottom, Props>(
             onValueChange={setWalletAddress}
             autoCapitalize="none"
           />
+          <SelectInput
+            label={t("Wallet network")}
+            placeholder={t("Select your wallet network")}
+            value={walletNetwork}
+            onValueChange={setWalletNetwork}
+            items={networks}
+          />
           <Button
             onPress={() => {
               Keyboard.dismiss();
@@ -79,7 +92,7 @@ export const BottomSheetAddWallet = forwardRef<Bottom, Props>(
               setWalletName("");
               setWalletAddress("");
             }}
-            classes={`mb-auto h-[56px]`}
+            classes={`my-auto h-[56px]`}
             disabled={!walletName || !walletAddress}
           >
             {t("Save wallet")}
