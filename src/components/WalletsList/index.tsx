@@ -1,41 +1,32 @@
 import { FlashList } from "@shopify/flash-list";
-import { View } from "react-native";
+import { View, ActivityIndicator, Text } from "react-native";
 import { WalletCard } from "./components/WalletCard";
-import { IWallet } from "@/interfaces/wallets";
+import { useWallets } from "@/services/requests/wallets/useWallets";
+import { colors } from "@/theme/colors";
+import { useTranslation } from "react-i18next";
 
 const ItemSeparator = () => <View className="h-5" />;
 
 export const WalletsList = () => {
-  const wallets: IWallet[] = [
-    {
-      name: "Coinbase",
-      address: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
-      crypto: "Ethereum",
-      symbol: "ETH",
-      amount: 0.1253,
-    },
-    {
-      name: "Kraken",
-      address: "0x8e0b7e6062272bad8f8315579ac72de9d6ec1948",
-      crypto: "Ethereum",
-      symbol: "ETH",
-      amount: 0.00523,
-    },
-    {
-      name: "MetaMask",
-      address: "0x9c3c9283e94d486102aa93963ac59a4d915f9e33",
-      crypto: "Ethereum",
-      symbol: "ETH",
-      amount: 0.02,
-    },
-    {
-      name: "WalletConnect",
-      address: "0x1421e0d5f5c3a6b7b5f7c4f7c6c7c8d9c5c7c9c3",
-      crypto: "Bitcoin",
-      symbol: "BTC",
-      amount: 0.0056,
-    },
-  ];
+  const { wallets, isLoading } = useWallets();
+  const { t } = useTranslation("home");
+
+  if (isLoading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color={colors.primary} />
+      </View>
+    );
+  }
+
+  const EmptyState = () => {
+    return (
+      <Text className="text-center text-lg font-medium text-dark-text2">
+        {t("No wallets found")}
+      </Text>
+    );
+  };
+
   return (
     <View className="h-full w-full">
       <FlashList
@@ -46,6 +37,7 @@ export const WalletsList = () => {
         estimatedItemSize={200}
         contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 12 }}
         renderItem={({ item }) => <WalletCard item={item} />}
+        ListEmptyComponent={<EmptyState />}
       />
     </View>
   );

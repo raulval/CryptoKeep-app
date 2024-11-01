@@ -1,41 +1,87 @@
-import {
-  convertCryptoOrFiat,
-  EActionToConvertCryptoOrFiat,
-} from "@/common/helpers/convertCryptoOrFiat";
-import { formatCryptoBalance } from "@/common/helpers/formatCryptoBalance";
 import { formatLongString } from "@/common/helpers/formatLongString";
-import { IWallet } from "@/interfaces/wallets";
-import useGetQuotation from "@/services/api.config.coingecko";
+import { IWalletDB } from "@/services/database";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { useLanguageStore } from "@/store/languageStore";
 import { useThemeStore } from "@/store/themeStore";
 import { colors } from "@/theme/colors";
 import { FontAwesome6 } from "@expo/vector-icons";
+import { ethers } from "ethers";
 import { ActivityIndicator, Platform, Text, View } from "react-native";
+import useGetQuotation from "@/services/api.config.coingecko";
+import {
+  convertCryptoOrFiat,
+  EActionToConvertCryptoOrFiat,
+} from "@/common/helpers/convertCryptoOrFiat";
+import { formatCryptoBalance } from "@/common/helpers/formatCryptoBalance";
+import {
+  useGetWalletBalance,
+  useWallets,
+} from "@/services/requests/wallets/useWallets";
+import { useEffect } from "react";
+import { getCryptoSymbol } from "@/common/helpers/getCryptoSymbol";
+import { getCryptoCoinId } from "@/common/helpers/getCryptoCoinId";
+import { getCryptoNetwork } from "@/common/helpers/getCryptoNetwork";
 
-export const WalletCard = ({ item }: { item: IWallet }) => {
+export const WalletCard = ({ item }: { item: IWalletDB }) => {
   const { theme } = useThemeStore();
   const { currencyCode } = useCurrencyStore();
   const { language } = useLanguageStore();
-  const { data, isLoading } = useGetQuotation(
-    [item.crypto.toLowerCase()],
-    currencyCode
+  const { updateBalance } = useWallets();
+
+  const { data: balance, isLoading: isLoadingBalance } = useGetWalletBalance(
+    item.address,
+    item.network,
+    {
+      refetchInterval: 60000, // Atualiza a cada 60 segundos
+    }
   );
 
+  useEffect(() => {
+    if (balance && balance.toString() !== item.balance) {
+      updateBalance({
+        address: item.address,
+        balance: balance.toString(),
+        network: item.network,
+      });
+    }
+  }, [balance, item.balance, item.address, item.network, updateBalance]);
+
+  const symbol = getCryptoSymbol(item.network);
+  const coinId = getCryptoCoinId(item.network);
+
+  const { data: quotationData, isLoading: isLoadingQuotation } =
+    useGetQuotation([coinId], currencyCode);
+
+  const formattedBalance = () => {
+    if (balance) {
+      return ethers.utils.formatEther(balance);
+    }
+    if (item.balance) {
+      return ethers.utils.formatEther(item.balance);
+    }
+    return "0";
+  };
+
   const loadingValue = () => {
-    const priceExists = data?.[0]?.current_price;
-    if (isLoading) {
+    if (isLoadingBalance || isLoadingQuotation) {
       return <ActivityIndicator size="small" color={colors.primary} />;
-    } else if (priceExists) {
+    }
+
+    const priceExists = quotationData?.[0]?.current_price;
+
+    if (priceExists) {
       return convertCryptoOrFiat({
-        value: item.amount,
+        value: Number(formattedBalance()),
         action: EActionToConvertCryptoOrFiat.CRYPTO_TO_FIAT,
-        quotation: data[0].current_price,
+        quotation: quotationData[0].current_price,
         localeInfo: { currencyCode, languageTag: language },
       });
-    } else {
-      return `${item.symbol} ${formatCryptoBalance(item.crypto, item.amount)}`;
     }
+
+    return `${formatCryptoBalance(
+      item.network,
+      Number(formattedBalance())
+    )} ${symbol}`;
   };
 
   return (
@@ -58,7 +104,7 @@ export const WalletCard = ({ item }: { item: IWallet }) => {
         })}
       >
         <FontAwesome6
-          name="coins"
+          name="wallet"
           size={24}
           color={theme === "light" ? colors.light.text : colors.dark.text}
         />
@@ -72,9 +118,14 @@ export const WalletCard = ({ item }: { item: IWallet }) => {
             {formatLongString(item.address, 8)}
           </Text>
         </View>
-        <Text className="text-light-text dark:text-dark-text font-bold text-[16px]">
-          {loadingValue()}
-        </Text>
+        <View className="items-end">
+          <Text className="text-light-text dark:text-dark-text font-bold text-[16px]">
+            {loadingValue()}
+          </Text>
+          <Text className="text-light-text2 dark:text-dark-text2 text-[12px] capitalize">
+            {getCryptoNetwork(item.network)}
+          </Text>
+        </View>
       </View>
     </View>
   );
