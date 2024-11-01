@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { Keyboard, Pressable, Text, View } from "react-native";
+import { Alert, Keyboard, Pressable, Text, View } from "react-native";
 import Bottom, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
 import { useThemeStore } from "@/store/themeStore";
 import { colors } from "@/theme/colors";
@@ -9,6 +9,7 @@ import { Button } from "../Button";
 import { SelectInput } from "../SelectInput";
 import { networks } from "@/common/constants/networks";
 import { Network } from "alchemy-sdk";
+import { useWallets } from "@/services/requests/wallets/useWallets";
 
 export type Props = {
   onClose: () => void;
@@ -24,6 +25,7 @@ export const BottomSheetAddWallet = forwardRef<Bottom, Props>(
       null
     );
     const [isKeyboardVisible, setIsKeyboardVisible] = React.useState(false);
+    const { addWallet, isPendingAddWallet } = useWallets();
 
     React.useEffect(() => {
       const keyboardDidShowListener = Keyboard.addListener(
@@ -39,6 +41,30 @@ export const BottomSheetAddWallet = forwardRef<Bottom, Props>(
         keyboardDidHideListener.remove();
       };
     }, [Keyboard]);
+
+    const handleSaveWallet = () => {
+      if (!walletNetwork || !walletName || !walletAddress) return;
+
+      addWallet(
+        {
+          name: walletName,
+          address: walletAddress,
+          network: walletNetwork,
+        },
+        {
+          onSuccess: () => {
+            Keyboard.dismiss();
+            onClose();
+            setWalletName("");
+            setWalletAddress("");
+            setWalletNetwork(null);
+          },
+          onError: (error) => {
+            Alert.alert(t("Error"), t("Error adding wallet"));
+          },
+        }
+      );
+    };
 
     return (
       <Bottom
@@ -86,14 +112,14 @@ export const BottomSheetAddWallet = forwardRef<Bottom, Props>(
             items={networks}
           />
           <Button
-            onPress={() => {
-              Keyboard.dismiss();
-              onClose();
-              setWalletName("");
-              setWalletAddress("");
-            }}
+            onPress={handleSaveWallet}
             classes={`my-auto h-[56px]`}
-            disabled={!walletName || !walletAddress}
+            disabled={
+              !walletName ||
+              !walletAddress ||
+              !walletNetwork ||
+              isPendingAddWallet
+            }
           >
             {t("Save wallet")}
           </Button>
