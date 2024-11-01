@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Image, Platform, SafeAreaView, Text, View } from "react-native";
 import * as LocalAuthentication from "expo-local-authentication";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { initDatabase } from "@/services/database";
 
 export default function Onboarding() {
   const { t } = useTranslation("onboarding");
@@ -45,6 +46,14 @@ export default function Onboarding() {
       console.error("Error during onboarding:", error);
     }
   }, [router]);
+
+  useEffect(() => {
+    initDatabase()
+      .then(() => console.log("Database initialized"))
+      .catch((error) =>
+        console.error("Database initialization failed:", error)
+      );
+  }, []);
 
   return (
     <SafeAreaView
