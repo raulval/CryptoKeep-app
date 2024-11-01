@@ -34,7 +34,10 @@
     "Wallet address": "Endereço da carteira",
     "Save wallet": "Salvar carteira",
     "Wallet network": "Rede da carteira",
-    "Select your wallet network": "Selecione sua rede da carteira"
+    "Select your wallet network": "Selecione sua rede da carteira",
+    "Error": "Erro",
+    "Error adding wallet": "Erro ao adicionar uma nova carteira, por favor tente novamente mais tarde",
+    "No wallets found": "Nenhuma carteira encontrada"
   },
   "settings": {
     "Settings": "Configurações",

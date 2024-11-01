@@ -35,7 +35,10 @@
     "Wallet address": "Wallet address",
     "Save wallet": "Save wallet",
     "Wallet network": "Wallet network",
-    "Select your wallet network": "Select your wallet network"
+    "Select your wallet network": "Select your wallet network",
+    "Error": "Error",
+    "Error adding wallet": "Error adding a new wallet, please try again later",
+    "No wallets found": "No wallets found"
   },
   "settings": {
     "Settings": "Settings",
