@@ -1,29 +1,44 @@
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { getCryptoNetwork } from "./getCryptoNetwork";
+import { BigNumber, ethers } from "ethers";
 
-function round(value: number) {
-  return value.toFixed(value % 1 && 5);
+interface CryptoNetworkInfo {
+  name: string;
+  decimals: number;
 }
 
-export const formatCryptoBalance = (cryptoName: string, balance: number) => {
-  switch (cryptoName.toLocaleLowerCase()) {
-    case "ethereum":
-      return round(balance);
+const CRYPTO_NETWORK_INFO: Record<string, CryptoNetworkInfo> = {
+  ethereum: { name: "ethereum", decimals: 18 },
+  polygon: { name: "polygon", decimals: 18 },
+  binance: { name: "binance", decimals: 18 },
+  avalanche: { name: "avalanche", decimals: 18 },
+  usdt: { name: "usdt", decimals: 6 },
+  ripple: { name: "ripple", decimals: 6 },
+  solana: { name: "solana", decimals: 9 },
+  bitcoin: { name: "bitcoin", decimals: 8 },
+};
 
-    case "polygon":
-      return round(balance);
+export const formatCryptoBalance = (
+  network: string,
+  balance: string | BigNumber
+): string => {
+  const formattedNetwork = getCryptoNetwork(network);
+  const networkInfo = CRYPTO_NETWORK_INFO[formattedNetwork] || {
+    name: formattedNetwork,
+    decimals: 18,
+  };
 
-    case "solana": {
-      const verifyNumber = String(balance).includes(".");
-      return verifyNumber ? round(balance) : round(balance / LAMPORTS_PER_SOL);
-    }
-
-    case "bitcoin":
-      return balance;
-
-    case "ripple":
-      return balance;
-
-    default:
-      return balance;
+  let weiValue: BigNumber;
+  if (typeof balance === "string") {
+    weiValue = BigNumber.from(balance);
+  } else if (BigNumber.isBigNumber(balance)) {
+    weiValue = balance;
+  } else {
+    return "0";
   }
+
+  const formattedValue = ethers.utils.formatUnits(
+    weiValue,
+    networkInfo.decimals
+  );
+  return formattedValue;
 };
