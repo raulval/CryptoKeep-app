@@ -1,3 +1,4 @@
+import { useSearchStore } from "@/store/searchStore";
 import { ThemeEnum, useThemeStore } from "@/store/themeStore";
 import { colors } from "@/theme/colors";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -13,6 +14,7 @@ export const HeaderHome: React.FC<HeaderHomeProps> = ({
 }) => {
   const { t } = useTranslation("home");
   const { setTheme, theme: colorTheme } = useThemeStore();
+  const { search, setSearch } = useSearchStore();
   return (
     <View className="w-full flex flex-row items-center justify-between gap-[22px] px-[24px] pt-[24px] mb-4 rounded-b-md">
       <View
@@ -35,6 +37,8 @@ export const HeaderHome: React.FC<HeaderHomeProps> = ({
         />
         <TextInput
           placeholder={t("Search")}
+          value={search}
+          onChange={(e) => setSearch(e.nativeEvent.text)}
           className="w-[95%] text-[14px] font-normal text-light-text dark:text-dark-text placeholder:text-light-placeholder dark:placeholder:text-dark-placeholder"
         />
       </View>

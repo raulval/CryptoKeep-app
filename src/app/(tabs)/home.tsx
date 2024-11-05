@@ -17,8 +17,10 @@ import { PortfolioList } from "@/components/PortfolioList";
 import { BottomSheetAddWallet } from "@/components/BottomSheetAddWallet";
 import { WalletsList } from "@/components/WalletsList";
 import { colors } from "@/theme/colors";
+import { useSearchStore } from "@/store/searchStore";
 
 export default function Home() {
+  const { search } = useSearchStore();
   const { t } = useTranslation("home");
   const bottomSheetSettingsRef = useRef<Bottom>(null);
   const handleBottomSheetSettingsOpen = () =>
@@ -49,13 +51,8 @@ export default function Home() {
         }
       >
         <View className="gap-[32px] mb-6">
-          <MainCard />
-          <View className="flex flex-col gap-4">
-            <Text className="px-[24px] text-[18px] font-bold text-light-text dark:text-dark-text">
-              {t("My Portfolio")}
-            </Text>
-            <PortfolioList />
-          </View>
+          {!search && <MainCard />}
+          <PortfolioList />
           <View className="flex flex-col gap-4 mt-[-16px]">
             <View className="flex flex-row items-center justify-between pr-[18px] mb-4">
               <Text className="px-[24px] text-[18px] font-bold text-light-text dark:text-dark-text">
