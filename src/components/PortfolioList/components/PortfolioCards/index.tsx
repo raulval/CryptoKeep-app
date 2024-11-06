@@ -3,7 +3,11 @@ import {
   EActionToConvertCryptoOrFiat,
 } from "@/common/helpers/convertCryptoOrFiat";
 import { formatCryptoBalance } from "@/common/helpers/formatCryptoBalance";
+import { getCryptoCoinId } from "@/common/helpers/getCryptoCoinId";
+import { getCryptoNetwork } from "@/common/helpers/getCryptoNetwork";
+import { getCryptoSymbol } from "@/common/helpers/getCryptoSymbol";
 import useGetQuotation from "@/services/api.config.coingecko";
+import { IPortfolioDB } from "@/services/database/portfolio/usePortfolioDatabase";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { useLanguageStore } from "@/store/languageStore";
 import { useThemeStore } from "@/store/themeStore";
@@ -12,7 +16,7 @@ import { View, ActivityIndicator, Text } from "react-native";
 import Icon from "react-native-ico-cryptocurrency";
 
 interface PortfolioCardsProps {
-  item: { crypto: string; cryptoCurrency: string; amount: number };
+  item: IPortfolioDB;
 }
 
 export const PortfolioCards = ({ item }: PortfolioCardsProps) => {
@@ -20,7 +24,7 @@ export const PortfolioCards = ({ item }: PortfolioCardsProps) => {
   const { currencyCode } = useCurrencyStore();
   const { language } = useLanguageStore();
   const { data, isLoading } = useGetQuotation(
-    [item.crypto.toLowerCase()],
+    [getCryptoCoinId(item.network)],
     currencyCode
   );
 
@@ -30,7 +34,9 @@ export const PortfolioCards = ({ item }: PortfolioCardsProps) => {
       return <ActivityIndicator size="small" color={colors.primary} />;
     } else if (priceExists) {
       return convertCryptoOrFiat({
-        value: item.amount,
+        value: Number(
+          formatCryptoBalance(item.network, item.total_balance ?? "0")
+        ),
         action: EActionToConvertCryptoOrFiat.CRYPTO_TO_FIAT,
         quotation: data[0].current_price,
         localeInfo: { currencyCode, languageTag: language },
@@ -57,13 +63,17 @@ export const PortfolioCards = ({ item }: PortfolioCardsProps) => {
       }
     >
       <View className="flex flex-row items-center gap-2">
-        <Icon name={item.cryptoCurrency.toLowerCase()} height={24} width={24} />
+        <Icon
+          name={getCryptoSymbol(item.network).toLowerCase()}
+          height={24}
+          width={24}
+        />
         <View className="flex flex-col justify-center">
-          <Text className="text-[12px] font-normal text-light-text2 dark:text-dark-text2">
-            {item.crypto}
+          <Text className="text-[12px] font-normal text-light-text2 dark:text-dark-text2 capitalize">
+            {getCryptoNetwork(item.network)}
           </Text>
           <Text className="text-[12px] font-bold text-light-text dark:text-dark-text">
-            {item.cryptoCurrency}
+            {getCryptoSymbol(item.network)}
           </Text>
         </View>
       </View>
@@ -72,7 +82,8 @@ export const PortfolioCards = ({ item }: PortfolioCardsProps) => {
           {loadingValue()}
         </Text>
         <Text className="text-[14px] text-end font-normal text-light-text2 dark:text-dark-text2">
-          {item.cryptoCurrency} {formatCryptoBalance(item.crypto, item.amount)}
+          {getCryptoSymbol(item.network)}{" "}
+          {formatCryptoBalance(item.network, item.total_balance ?? "0")}
         </Text>
       </View>
     </View>
