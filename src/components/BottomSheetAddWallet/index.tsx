@@ -114,6 +114,7 @@ export const BottomSheetAddWallet = forwardRef<Bottom, Props>(
           <Button
             onPress={handleSaveWallet}
             classes={`my-auto h-[56px]`}
+            isLoading={isPendingAddWallet}
             disabled={
               !walletName ||
               !walletAddress ||
