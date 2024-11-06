@@ -5,11 +5,22 @@ import { useTranslation } from "react-i18next";
 import { Image, Platform, SafeAreaView, Text, View } from "react-native";
 import * as LocalAuthentication from "expo-local-authentication";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { initDatabase } from "@/services/database";
+import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
+import { drizzle } from "drizzle-orm/expo-sqlite";
+import { openDatabaseSync } from "expo-sqlite";
+import { initWalletsDatabase } from "@/services/database/wallets";
+import { initPortfolioDatabase } from "@/services/database/portfolio";
+
+const walletsDB = openDatabaseSync("wallets.db");
+const db = drizzle(walletsDB, { logger: true });
 
 export default function Onboarding() {
   const { t } = useTranslation("onboarding");
   const { t: tBiometrics } = useTranslation("biometrics");
+
+  // BUG: lib is not working
+  // @ts-ignore
+  useDrizzleStudio(db);
 
   const handleBiometricAuth = useCallback(async () => {
     try {
@@ -48,10 +59,15 @@ export default function Onboarding() {
   }, [router]);
 
   useEffect(() => {
-    initDatabase()
-      .then(() => console.log("Database initialized"))
+    initWalletsDatabase()
+      .then(() => console.log("Wallets Database initialized"))
       .catch((error) =>
-        console.error("Database initialization failed:", error)
+        console.error("Wallets Database initialization failed:", error)
+      );
+    initPortfolioDatabase()
+      .then(() => console.log("Portfolio Database initialized"))
+      .catch((error) =>
+        console.error("Portfolio Database initialization failed:", error)
       );
   }, []);
 

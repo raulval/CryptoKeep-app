@@ -18,10 +18,13 @@ import { BottomSheetAddWallet } from "@/components/BottomSheetAddWallet";
 import { WalletsList } from "@/components/WalletsList";
 import { colors } from "@/theme/colors";
 import { useSearchStore } from "@/store/searchStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Home() {
   const { search } = useSearchStore();
   const { t } = useTranslation("home");
+  const queryClient = useQueryClient();
+
   const bottomSheetSettingsRef = useRef<Bottom>(null);
   const handleBottomSheetSettingsOpen = () =>
     bottomSheetSettingsRef.current?.expand();
@@ -45,7 +48,17 @@ export default function Home() {
         refreshControl={
           <RefreshControl
             refreshing={false}
-            onRefresh={() => {}}
+            onRefresh={() => {
+              queryClient.invalidateQueries({
+                queryKey: ["wallets"],
+              });
+              queryClient.invalidateQueries({
+                queryKey: ["portfolio"],
+              });
+              queryClient.invalidateQueries({
+                queryKey: ["mainBalance"],
+              });
+            }}
             colors={[colors.primary]}
           />
         }
