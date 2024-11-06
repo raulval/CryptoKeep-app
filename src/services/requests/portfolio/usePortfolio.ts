@@ -11,7 +11,7 @@ import {
 } from "@/common/helpers/convertCryptoOrFiat";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { useLanguageStore } from "@/store/languageStore";
-import useGetQuotation, { fetchCoins } from "@/services/api.config.coingecko";
+import { fetchCoins } from "@/services/api.config.coingecko";
 import { getCryptoCoinId } from "@/common/helpers/getCryptoCoinId";
 import { formatCryptoBalance } from "@/common/helpers/formatCryptoBalance";
 
@@ -26,7 +26,7 @@ export const usePortfolio = () => {
 
   const quotationDataList = useQueries({
     queries: portfolio.map((item) => ({
-      queryKey: [getCryptoCoinId(item.network)],
+      queryKey: [getCryptoCoinId(item.network), currencyCode],
       queryFn: () => fetchCoins([getCryptoCoinId(item.network)], currencyCode),
       staleTime: 2 * 60 * 1000,
     })),

@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import CountryFlag from "react-native-country-flag";
 import { LanguageEnum, useLanguageStore } from "@/store/languageStore";
 import { useCurrencyStore } from "@/store/currencyStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 export type Props = {
   onClose: () => void;
@@ -16,6 +17,7 @@ export type Props = {
 export const BottomSheetSettings = forwardRef<Bottom, Props>(
   ({ onClose }, ref) => {
     const { t, i18n } = useTranslation("settings");
+    const queryClient = useQueryClient();
     const { theme: colorTheme } = useThemeStore();
     const { setLanguage } = useLanguageStore();
     const { currencyCode, setCurrencyCode } = useCurrencyStore();
@@ -23,6 +25,20 @@ export const BottomSheetSettings = forwardRef<Bottom, Props>(
       setLanguage(language);
       i18n.changeLanguage(language);
     };
+
+    const changeCurrencyCode = (currencyCode: string) => {
+      setCurrencyCode(currencyCode);
+      queryClient.invalidateQueries({
+        queryKey: ["wallets"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["portfolio"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["mainBalance"],
+      });
+    };
+
     return (
       <Bottom
         ref={ref}
@@ -103,7 +119,7 @@ export const BottomSheetSettings = forwardRef<Bottom, Props>(
                 <CountryFlag isoCode="us" size={20} />
                 <Pressable
                   className="flex-1 justify-between flex-row"
-                  onPress={() => setCurrencyCode("USD")}
+                  onPress={() => changeCurrencyCode("USD")}
                 >
                   <Text className="text-light-text dark:text-dark-text font-normal text-[16px]">
                     {t("Dollar")}
@@ -123,7 +139,7 @@ export const BottomSheetSettings = forwardRef<Bottom, Props>(
                 <CountryFlag isoCode="br" size={20} />
                 <Pressable
                   className="flex-1 justify-between flex-row"
-                  onPress={() => setCurrencyCode("BRL")}
+                  onPress={() => changeCurrencyCode("BRL")}
                 >
                   <Text className="text-light-text dark:text-dark-text font-normal text-[16px]">
                     {t("Brazilian Real")}
@@ -143,7 +159,7 @@ export const BottomSheetSettings = forwardRef<Bottom, Props>(
                 <CountryFlag isoCode="eu" size={20} />
                 <Pressable
                   className="flex-1 justify-between flex-row"
-                  onPress={() => setCurrencyCode("EUR")}
+                  onPress={() => changeCurrencyCode("EUR")}
                 >
                   <Text className="text-light-text dark:text-dark-text font-normal text-[16px]">
                     {t("Euro")}
@@ -163,7 +179,7 @@ export const BottomSheetSettings = forwardRef<Bottom, Props>(
                 <CountryFlag isoCode="gb" size={20} />
                 <Pressable
                   className="flex-1 justify-between flex-row"
-                  onPress={() => setCurrencyCode("GBP")}
+                  onPress={() => changeCurrencyCode("GBP")}
                 >
                   <Text className="text-light-text dark:text-dark-text font-normal text-[16px]">
                     {t("Pound Sterling")}
@@ -183,7 +199,7 @@ export const BottomSheetSettings = forwardRef<Bottom, Props>(
                 <CountryFlag isoCode="mx" size={20} />
                 <Pressable
                   className="flex-1 justify-between flex-row"
-                  onPress={() => setCurrencyCode("MXN")}
+                  onPress={() => changeCurrencyCode("MXN")}
                 >
                   <Text className="text-light-text dark:text-dark-text font-normal text-[16px]">
                     {t("Mexican Peso")}
