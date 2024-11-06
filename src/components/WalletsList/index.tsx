@@ -4,11 +4,13 @@ import { WalletCard } from "./components/WalletCard";
 import { useWallets } from "@/services/requests/wallets/useWallets";
 import { colors } from "@/theme/colors";
 import { useTranslation } from "react-i18next";
+import { useSearchStore } from "@/store/searchStore";
 
 const ItemSeparator = () => <View className="h-5" />;
 
 export const WalletsList = () => {
-  const { wallets, isLoading } = useWallets();
+  const { search } = useSearchStore();
+  const { wallets, isLoading } = useWallets(search);
   const { t } = useTranslation("home");
 
   if (isLoading) {
@@ -33,7 +35,7 @@ export const WalletsList = () => {
         data={wallets}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={ItemSeparator}
-        keyExtractor={(item) => item.address}
+        keyExtractor={(item) => `${item.id}-${item.address}`}
         estimatedItemSize={200}
         contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 12 }}
         renderItem={({ item }) => <WalletCard item={item} />}

@@ -1,5 +1,4 @@
 import { formatLongString } from "@/common/helpers/formatLongString";
-import { IWalletDB } from "@/services/database";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { useLanguageStore } from "@/store/languageStore";
 import { useThemeStore } from "@/store/themeStore";
@@ -21,6 +20,7 @@ import { useEffect } from "react";
 import { getCryptoSymbol } from "@/common/helpers/getCryptoSymbol";
 import { getCryptoCoinId } from "@/common/helpers/getCryptoCoinId";
 import { getCryptoNetwork } from "@/common/helpers/getCryptoNetwork";
+import { IWalletDB } from "@/services/database/wallets/useWalletsDatabase";
 
 export const WalletCard = ({ item }: { item: IWalletDB }) => {
   const { theme } = useThemeStore();
@@ -54,10 +54,10 @@ export const WalletCard = ({ item }: { item: IWalletDB }) => {
 
   const formattedBalance = () => {
     if (balance) {
-      return ethers.utils.formatEther(balance);
+      return formatCryptoBalance(item.network, balance);
     }
     if (item.balance) {
-      return ethers.utils.formatEther(item.balance);
+      return formatCryptoBalance(item.network, item.balance);
     }
     return "0";
   };
@@ -78,10 +78,7 @@ export const WalletCard = ({ item }: { item: IWalletDB }) => {
       });
     }
 
-    return `${formatCryptoBalance(
-      item.network,
-      Number(formattedBalance())
-    )} ${symbol}`;
+    return `${formattedBalance()} ${symbol}`;
   };
 
   return (
