@@ -1,14 +1,24 @@
 import { formatValueByCurrencyCode } from "@/common/helpers/formatValueByCurrencyCode";
+import { usePortfolio } from "@/services/requests/portfolio/usePortfolio";
 import { useCurrencyStore } from "@/store/currencyStore";
 import { useLanguageStore } from "@/store/languageStore";
+import { colors } from "@/theme/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { useTranslation } from "react-i18next";
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 
 export const MainCard = () => {
   const { t } = useTranslation("home");
   const { currencyCode } = useCurrencyStore();
   const { language } = useLanguageStore();
+  const { mainBalance, isLoadingMainBalance } = usePortfolio();
+
+  const isLoadingValue = () => {
+    if (isLoadingMainBalance) {
+      return <ActivityIndicator size="large" color={colors.dark.text} />;
+    }
+  };
+
   return (
     <View
       className="w-full px-[24px]"
@@ -35,12 +45,16 @@ export const MainCard = () => {
             {t("Current Balance")}
           </Text>
           <Text className="text-[24px] font-poppins-bold text-dark-text">
-            {formatValueByCurrencyCode({
-              value: 52345.22,
-              currencyCode,
-              localeCode: language,
-              withSymbol: true,
-            })}
+            {isLoadingMainBalance
+              ? isLoadingValue()
+              : mainBalance !== null && mainBalance !== undefined
+              ? formatValueByCurrencyCode({
+                  value: mainBalance,
+                  currencyCode,
+                  localeCode: language,
+                  withSymbol: true,
+                })
+              : "--"}
           </Text>
         </View>
       </LinearGradient>
