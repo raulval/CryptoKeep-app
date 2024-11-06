@@ -12,6 +12,8 @@ interface IConvertCryptoOrFiat {
     currencyCode: string;
     languageTag: string;
   };
+  withSymbol?: boolean;
+  noFormat?: boolean;
 }
 
 export const convertCryptoOrFiat = ({
@@ -19,6 +21,8 @@ export const convertCryptoOrFiat = ({
   action,
   quotation,
   localeInfo,
+  withSymbol = true,
+  noFormat = false,
 }: IConvertCryptoOrFiat): string => {
   let convertedValue = "0";
 
@@ -38,11 +42,15 @@ export const convertCryptoOrFiat = ({
         Number(value) * priceCryptoInFiat
       ).toFixed(2);
 
+      if (noFormat) {
+        return valueWithoutFormatting;
+      }
+
       convertedValue = formatValueByCurrencyCode({
         value: Number(valueWithoutFormatting),
         currencyCode: localeInfo.currencyCode,
         localeCode: localeInfo.languageTag,
-        withSymbol: true,
+        withSymbol,
       });
     }
   }
