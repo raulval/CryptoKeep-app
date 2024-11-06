@@ -4,11 +4,13 @@ CryptoKeep is an intuitive app for managing your cryptocurrency portfolio. Add w
 
 ## 📱 Screens
 
+<div style="text-align: center; gap: 8px; display: flex; flex-wrap: wrap">
 <img src="./assets/screenshots/screenshot1.png" width=200 />
 <img src="./assets/screenshots/screenshot2.png" width=200 />
 <img src="./assets/screenshots/screenshot3.png" width=200 />
 <img src="./assets/screenshots/screenshot4.png" width=200 />
 <img src="./assets/screenshots/screenshot5.png" width=200 />
+</div>
 
 ## 🧪 Tech Stack
 
