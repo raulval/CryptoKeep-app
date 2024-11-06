@@ -9,7 +9,7 @@ import {
   insertWallet,
   updateWalletBalance,
   IWalletDB,
-} from "@/services/database";
+} from "@/services/database/wallets/useWalletsDatabase";
 import { useWeb3 } from "@/common/hooks/useWeb3";
 import { Network } from "alchemy-sdk";
 import { BigNumber } from "ethers";
@@ -17,10 +17,7 @@ import { BigNumber } from "ethers";
 export const useGetWalletBalance = (
   address: string,
   network: Network,
-  options?: Omit<
-    UseQueryOptions<BigNumber, Error>,
-    "queryKey" | "queryFn"
-  >
+  options?: Omit<UseQueryOptions<BigNumber, Error>, "queryKey" | "queryFn">
 ) => {
   const { getBalance } = useWeb3(network);
 
@@ -32,16 +29,16 @@ export const useGetWalletBalance = (
   });
 };
 
-export const useWallets = () => {
+export const useWallets = (search?: string) => {
   const queryClient = useQueryClient();
 
   const { data: wallets = [], isLoading } = useQuery({
-    queryKey: ["wallets"],
-    queryFn: getAllWallets,
+    queryKey: ["wallets", search],
+    queryFn: () => getAllWallets(search),
   });
 
   const addWalletMutation = useMutation({
-    mutationFn: async (wallet: IWalletDB) => {
+    mutationFn: async (wallet: Omit<IWalletDB, "id">) => {
       const { getBalance } = useWeb3(wallet.network);
       const balance = await getBalance(wallet.address);
 
@@ -51,10 +48,20 @@ export const useWallets = () => {
         last_balance_update: new Date().toISOString(),
       });
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["wallets"] });
+    onSuccess: async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      queryClient.invalidateQueries({
+        queryKey: ["wallets"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["portfolio"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["mainBalance"],
+      });
     },
-    onError: (error) => {
+    onError: async (error) => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       console.log("Error adding wallet", error);
     },
   });
@@ -69,8 +76,17 @@ export const useWallets = () => {
       balance: string;
       network: Network;
     }) => updateWalletBalance(address, balance, network),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["wallets"] });
+    onSuccess: async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      queryClient.invalidateQueries({
+        queryKey: ["wallets"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["portfolio"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["mainBalance"],
+      });
     },
   });
 
@@ -79,6 +95,7 @@ export const useWallets = () => {
     isLoading,
     addWallet: addWalletMutation.mutateAsync,
     isPendingAddWallet: addWalletMutation.isPending,
-    updateBalance: updateBalanceMutation.mutateAsync,
+    updateBalance: updateBalanceMutation.mutate,
+    isPendingUpdateBalance: updateBalanceMutation.isPending,
   };
 };

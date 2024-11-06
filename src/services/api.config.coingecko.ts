@@ -1,16 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 
-const fetchCoins = async (coinId: string[], fiat = "usd") => {
+export const fetchCoins = async (coinId: string[], fiat = "usd") => {
   const baseUrl = "https://api.coingecko.com/api/v3/coins";
   const ids = coinId?.join(",") || ""; // Handle optional coinIds
 
-  const response = await fetch(
-    `${baseUrl}/markets?vs_currency=${fiat}&ids=${ids}`
-  );
-  if (!response.ok) {
+  try {
+    const response = await fetch(
+      `${baseUrl}/markets?vs_currency=${fiat}&ids=${ids}`
+    );
+    return response.json();
+  } catch (error) {
+    console.error("Error fetching coins:", error);
     throw new Error("Failed to fetch coins");
   }
-  return response.json();
 };
 
 export default function useGetQuotation(coinId: string[], fiat: string) {
