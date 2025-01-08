@@ -53,5 +53,10 @@
     "Canadian Dollar": "Canadian Dollar",
     "Argentinian Peso": "Argentinian Peso",
     "Mexican Peso": "Mexican Peso"
+  },
+  "walletDetails": {
+    "Something went wrong": "Something went wrong, please try again later",
+    "Transactions": "Transactions",
+    "No transactions found": "No transactions found"
   }
 }
