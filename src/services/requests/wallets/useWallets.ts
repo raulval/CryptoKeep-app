@@ -9,6 +9,7 @@ import {
   insertWallet,
   updateWalletBalance,
   IWalletDB,
+  getWalletByID,
 } from "@/services/database/wallets/useWalletsDatabase";
 import { useWeb3 } from "@/common/hooks/useWeb3";
 import { Network } from "alchemy-sdk";
@@ -26,6 +27,13 @@ export const useGetWalletBalance = (
     queryFn: () => getBalance(address),
     enabled: !!address && !!network,
     ...options,
+  });
+};
+
+export const useGetWallet = (id: number) => {
+  return useQuery({
+    queryKey: ["walletById", id],
+    queryFn: () => getWalletByID(id),
   });
 };
 

@@ -56,6 +56,31 @@ export const insertWallet = async (
   }
 };
 
+// Atualiza uma carteira
+export const updateWallet = async (id: number, name: string): Promise<void> => {
+  if (!db) {
+    return console.error("Database not initialized");
+  }
+
+  const statement = await db.prepareAsync(
+    `UPDATE wallets 
+      SET name = $name, 
+      WHERE id = $id`
+  );
+
+  try {
+    await statement.executeAsync({
+      $name: name,
+      $id: id,
+    });
+  } catch (error) {
+    console.error("Error updating wallet:", error);
+    throw error;
+  } finally {
+    await statement.finalizeAsync();
+  }
+};
+
 // Atualiza o balance de uma carteira
 export const updateWalletBalance = async (
   address: string,
@@ -114,6 +139,24 @@ export const getAllWallets = async (search?: string): Promise<IWalletDB[]> => {
     return response;
   } catch (error) {
     console.error("Error retrieving wallets:", error);
+    throw error;
+  }
+};
+
+// Retorna uma carteira pelo ID
+export const getWalletByID = async (id: number): Promise<IWalletDB | null> => {
+  if (!db) {
+    console.error("Database not initialized");
+    return null;
+  }
+
+  const query = `SELECT * FROM wallets WHERE id = ${id}`;
+
+  try {
+    const response = await db.getFirstAsync<IWalletDB>(query);
+    return response;
+  } catch (error) {
+    console.error("Error retrieving wallet:", error);
     throw error;
   }
 };

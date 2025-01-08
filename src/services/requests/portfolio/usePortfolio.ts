@@ -1,8 +1,4 @@
-import {
-  QueryObserverSuccessResult,
-  useQueries,
-  useQuery,
-} from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { getAllPortfolio } from "@/services/database/portfolio/usePortfolioDatabase";
 import { getCryptoNetwork } from "@/common/helpers/getCryptoNetwork";
 import {
