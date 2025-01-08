@@ -8,4 +8,6 @@ export const darkTheme = {
   card: "#201E1D",
   border: "#4F4F4F",
   bottomSheet: "#070707",
+  transactionReceived: "#6CDA9C",
+  transactionSent: "#FF3A58",
 };

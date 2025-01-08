@@ -7,4 +7,6 @@ export const lightTheme = {
   text2: "#8C8C8C",
   card: "#FFF",
   bottomSheet: "#F3F3F3",
+  transactionReceived: "#6CDA9C",
+  transactionSent: "#FF3A58",
 };
