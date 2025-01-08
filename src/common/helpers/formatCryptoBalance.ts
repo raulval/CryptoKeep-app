@@ -27,18 +27,22 @@ export const formatCryptoBalance = (
     decimals: 18,
   };
 
-  let weiValue: BigNumber;
-  if (typeof balance === "string") {
-    weiValue = BigNumber.from(balance);
-  } else if (BigNumber.isBigNumber(balance)) {
-    weiValue = balance;
-  } else {
-    return "0";
-  }
+  try {
+    if (typeof balance === "string") {
+      if (balance.includes(".")) {
+        return balance;
+      }
 
-  const formattedValue = ethers.utils.formatUnits(
-    weiValue,
-    networkInfo.decimals
-  );
-  return formattedValue;
+      return ethers.utils.formatUnits(balance, networkInfo.decimals);
+    }
+
+    if (BigNumber.isBigNumber(balance)) {
+      return ethers.utils.formatUnits(balance, networkInfo.decimals);
+    }
+
+    return "0";
+  } catch (error) {
+    console.error("Error formatting crypto balance:", error);
+    return balance.toString();
+  }
 };
