@@ -4,8 +4,13 @@ import { useLanguageStore } from "@/store/languageStore";
 import { useThemeStore } from "@/store/themeStore";
 import { colors } from "@/theme/colors";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { ethers } from "ethers";
-import { ActivityIndicator, Platform, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Platform,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
 import useGetQuotation from "@/services/api.config.coingecko";
 import {
   convertCryptoOrFiat,
@@ -21,6 +26,7 @@ import { getCryptoSymbol } from "@/common/helpers/getCryptoSymbol";
 import { getCryptoCoinId } from "@/common/helpers/getCryptoCoinId";
 import { getCryptoNetwork } from "@/common/helpers/getCryptoNetwork";
 import { IWalletDB } from "@/services/database/wallets/useWalletsDatabase";
+import { Link } from "expo-router";
 
 export const WalletCard = ({ item }: { item: IWalletDB }) => {
   const { theme } = useThemeStore();
@@ -82,48 +88,51 @@ export const WalletCard = ({ item }: { item: IWalletDB }) => {
   };
 
   return (
-    <View className="flex-row items-center">
-      <View
-        className="bg-light-card dark:bg-dark-card rounded-md w-[50px] h-[50px] items-center justify-center"
-        style={Platform.select({
-          ios: {
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 2,
+    // @ts-ignore
+    <Link href={`/wallet/${item.id}`} asChild>
+      <Pressable className="flex-row items-center">
+        <View
+          className="bg-light-card dark:bg-dark-card rounded-md w-[50px] h-[50px] items-center justify-center"
+          style={Platform.select({
+            ios: {
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.15,
+              shadowRadius: 4.5,
             },
-            shadowOpacity: 0.15,
-            shadowRadius: 4.5,
-          },
-          android: {
-            elevation: 5,
-          },
-        })}
-      >
-        <FontAwesome6
-          name="wallet"
-          size={24}
-          color={theme === "light" ? colors.light.text : colors.dark.text}
-        />
-      </View>
-      <View className="flex-1 pl-4 flex-row justify-between items-center">
-        <View className="flex-col">
-          <Text className="text-light-text dark:text-dark-text font-bold text-[16px]">
-            {item.name}
-          </Text>
-          <Text className="text-light-text2 dark:text-dark-text2 font-normal text-[14px]">
-            {formatLongString(item.address, 8)}
-          </Text>
+            android: {
+              elevation: 5,
+            },
+          })}
+        >
+          <FontAwesome6
+            name="wallet"
+            size={24}
+            color={theme === "light" ? colors.light.text : colors.dark.text}
+          />
         </View>
-        <View className="items-end">
-          <Text className="text-light-text dark:text-dark-text font-bold text-[16px]">
-            {loadingValue()}
-          </Text>
-          <Text className="text-light-text2 dark:text-dark-text2 text-[12px] capitalize">
-            {getCryptoNetwork(item.network)}
-          </Text>
+        <View className="flex-1 pl-4 flex-row justify-between items-center">
+          <View className="flex-col">
+            <Text className="text-light-text dark:text-dark-text font-bold text-[16px]">
+              {item.name}
+            </Text>
+            <Text className="text-light-text2 dark:text-dark-text2 font-normal text-[14px]">
+              {formatLongString(item.address, 8)}
+            </Text>
+          </View>
+          <View className="items-end">
+            <Text className="text-light-text dark:text-dark-text font-bold text-[16px]">
+              {loadingValue()}
+            </Text>
+            <Text className="text-light-text2 dark:text-dark-text2 text-[12px] capitalize">
+              {getCryptoNetwork(item.network)}
+            </Text>
+          </View>
         </View>
-      </View>
-    </View>
+      </Pressable>
+    </Link>
   );
 };
